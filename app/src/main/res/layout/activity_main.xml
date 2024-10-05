@@ -7,13 +7,28 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <Button
+        android:id="@+id/button"
+        android:layout_width="214dp"
+        android:layout_height="64dp"
+        android:text="가볍게 뛰기"
+        tools:layout_editor_absoluteX="98dp"
+        tools:layout_editor_absoluteY="199dp" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="214dp"
+        android:layout_height="64dp"
+        android:text="평균 속도"
+        tools:layout_editor_absoluteX="98dp"
+        tools:layout_editor_absoluteY="315dp" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="214dp"
+        android:layout_height="64dp"
+        android:text="전력질주"
+        tools:layout_editor_absoluteX="98dp"
+        tools:layout_editor_absoluteY="431dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
