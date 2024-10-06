@@ -5,30 +5,4 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="214dp"
-        android:layout_height="64dp"
-        android:text="가볍게 뛰기"
-        tools:layout_editor_absoluteX="98dp"
-        tools:layout_editor_absoluteY="199dp" />
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="214dp"
-        android:layout_height="64dp"
-        android:text="평균 속도"
-        tools:layout_editor_absoluteX="98dp"
-        tools:layout_editor_absoluteY="315dp" />
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="214dp"
-        android:layout_height="64dp"
-        android:text="전력질주"
-        tools:layout_editor_absoluteX="98dp"
-        tools:layout_editor_absoluteY="431dp" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    tools:context=".MainActivity"/>
