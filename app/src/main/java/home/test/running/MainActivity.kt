@@ -6,8 +6,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 
@@ -28,7 +30,17 @@ class MainActivity : AppCompatActivity() {
 
        permissionRequestChecker()
 
+        //첫 화면 가운데 텍스트 얻어오기
+        val mainText = findViewById<TextView>(R.id.main_text)
+
+        //첫 화면 텍스트 클릭 시 다음 화면 전환
+        mainText.setOnClickListener{
+            val intent = Intent(this, RunningStartActivity::class.java)
+            startActivity(intent)
+        }
     }
+
+
 
     //권한 허용 요청
     private fun permissionRequestChecker(){
