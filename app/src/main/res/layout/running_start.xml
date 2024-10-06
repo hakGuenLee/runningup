@@ -17,4 +17,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <Button
+        android:id="@+id/runstartBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="start!"
+        tools:layout_editor_absoluteX="161dp"
+        tools:layout_editor_absoluteY="448dp" />
+
+    <Button
+        android:id="@+id/runningEndBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="end!"
+        tools:layout_editor_absoluteX="161dp"
+        tools:layout_editor_absoluteY="522dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

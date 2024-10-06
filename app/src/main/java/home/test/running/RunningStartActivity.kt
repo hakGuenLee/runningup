@@ -1,9 +1,10 @@
 package home.test.running
 
-
 import android.os.Bundle
+
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+
 
 class RunningStartActivity : AppCompatActivity(){
 
@@ -15,6 +16,7 @@ class RunningStartActivity : AppCompatActivity(){
 
 
     }
+
 
 
 
