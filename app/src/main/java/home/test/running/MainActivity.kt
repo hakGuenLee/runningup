@@ -11,6 +11,7 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 
 class MainActivity : AppCompatActivity() {
@@ -18,6 +19,7 @@ class MainActivity : AppCompatActivity() {
     private val REQUEST_PERMISSIONS = 1
 
 
+//    @RequiresApi(Build.VERSION_CODES.Q)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -39,10 +41,14 @@ class MainActivity : AppCompatActivity() {
 
 
     //권한 허용 요청
+//    @RequiresApi(Build.VERSION_CODES.Q)
     private fun permissionRequestChecker(){
         val permissionList = mutableMapOf<String, String>()
         permissionList["location"] = Manifest.permission.ACCESS_COARSE_LOCATION
         permissionList["fineLocation"] = Manifest.permission.ACCESS_FINE_LOCATION
+
+        //센서 권한 얻기
+        permissionList["sensor"] = Manifest.permission.ACTIVITY_RECOGNITION
 
         //권한 허용 여부 확인
         val permissionDeny = permissionList.count{ ContextCompat.checkSelfPermission(this,it.value) == PackageManager.PERMISSION_DENIED}
