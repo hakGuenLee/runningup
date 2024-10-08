@@ -47,8 +47,6 @@ class MainActivity : AppCompatActivity() {
         permissionList["location"] = Manifest.permission.ACCESS_COARSE_LOCATION
         permissionList["fineLocation"] = Manifest.permission.ACCESS_FINE_LOCATION
 
-        //센서 권한 얻기
-        permissionList["sensor"] = Manifest.permission.ACTIVITY_RECOGNITION
 
         //권한 허용 여부 확인
         val permissionDeny = permissionList.count{ ContextCompat.checkSelfPermission(this,it.value) == PackageManager.PERMISSION_DENIED}

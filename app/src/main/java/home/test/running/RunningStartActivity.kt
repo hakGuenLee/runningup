@@ -10,24 +10,26 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import android.Manifest
-
-//GPS를 통해 속도 측정하는 엑티비티.
-//속도측정 구현 완료 후 각 옵션별로 기준점 설정하여 미디어 볼륨 조절 예정
+import android.media.AudioManager
 
 class RunningStartActivity : AppCompatActivity(), LocationListener {
 
     private lateinit var locationManager: LocationManager
     private lateinit var speedTextView: TextView
+    private lateinit var musicVolumeTextView: TextView
     private var lastLocation: Location? = null
-    private val speedThreshold = 0.1f // 속도 임계값
+    private val speedThreshold = 1.944f // 속도 임계값 (3.6을 곱했을 때 7km/h)
+    private lateinit var audioManager: AudioManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.running_start)
 
         speedTextView = findViewById(R.id.speedchecktext)
+        musicVolumeTextView = findViewById(R.id.music)
 
         locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
+        audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
 
         // 위치 권한 확인 및 요청
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
@@ -37,19 +39,33 @@ class RunningStartActivity : AppCompatActivity(), LocationListener {
     }
 
     override fun onLocationChanged(location: Location) {
-        // 이동하지 않거나 속도가 너무 낮은 경우 속도를 0으로 표시
-        if (lastLocation != null) {
-            val speed = location.speed * 3.6f // m/s를 km/h로 변환
-            if (speed < speedThreshold) {
-                speedTextView.text = "현재 속도 : 0.00 km/h"
-            } else {
-                speedTextView.text = String.format("현재 속도 : %.2f km/h", speed)
-            }
-        } else {
-            speedTextView.text = String.format("현재 속도 : %.2f km/h", location.speed * 3.6f)
-        }
+        val speed = location.speed * 3.6f // m/s를 km/h로 변환
+        speedTextView.text = String.format("현재 속도 : %.2f km/h", speed)
+
+        // 속도에 따라 볼륨 조절
+        musicVolumeController(speed)
 
         lastLocation = location
+    }
+
+    // 미디어 볼륨 조절 메소드
+    private fun musicVolumeController(speed: Float) {
+        val currentVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC)
+        val maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
+
+        // 속도가 0에 가까울수록 볼륨을 줄이고, 임계값 이상일 경우 볼륨을 높임
+        val newVolume: Int = when {
+            speed < speedThreshold -> 0 // 속도가 임계값 이하일 때 볼륨을 0으로
+            speed < 5 -> maxVolume / 4 // 속도가 5km/h 미만일 때 볼륨을 최대 볼륨의 1/4로 설정.
+            speed < 7 -> maxVolume / 2 // 속도가 7km/h 미만일 때, 최대 볼륨의 1/2로 설정.
+            else -> maxVolume // 속도가 7km/h 이상일 때 최대 볼륨
+        }
+
+        // 볼륨 설정
+        if (currentVolume != newVolume) {
+            audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, newVolume, 0)
+            musicVolumeTextView.text = String.format("현재 볼륨 : %d", newVolume)
+        }
     }
 
     override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {}
