@@ -11,6 +11,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import android.Manifest
 import android.media.AudioManager
+import android.os.Handler
+import android.os.Looper
+import java.util.Timer
+import java.util.TimerTask
 
 
 //속도 측정과 미디어 볼륨 조절하는 공통 화면&컴포넌트
@@ -30,8 +34,11 @@ class RunningStartActivity : AppCompatActivity(), LocationListener {
         speedTextView = findViewById(R.id.speedchecktext)
         musicVolumeTextView = findViewById(R.id.music)
 
+        //GPS기반으로 위치 확인하는 LocationManager 객체 얻기
         locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
+        //미디어 볼륨 조절을 위해 AudioManager 객체 얻기
         audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
+
 
         // 위치 권한 확인 및 요청
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
@@ -40,6 +47,7 @@ class RunningStartActivity : AppCompatActivity(), LocationListener {
         }
     }
 
+    //현재 위치 파악 : requestLocationUpdates 메서드 실행 시 LocationManager가 알아서 내부적으로 호출
     override fun onLocationChanged(location: Location) {
         val speed = location.speed * 3.6f // m/s를 km/h로 변환
         speedTextView.text = String.format("현재 속도 : %.2f km/h", speed)
@@ -52,7 +60,7 @@ class RunningStartActivity : AppCompatActivity(), LocationListener {
 
     // 미디어 볼륨 조절 메소드
     private fun musicVolumeController(speed: Float) {
-        val currentVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC)
+        var currentVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC)
         val maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
 
         //RunningSelectActivity에서 넘어오는 속도 기준값 받기
@@ -72,10 +80,28 @@ class RunningStartActivity : AppCompatActivity(), LocationListener {
 
         }
 
-        // 볼륨 설정
+        // 현재 볼륨과 변경되어야 하는 볼륨이 같지 않을 경우 newVolume으로 볼륨 셋팅
         if (currentVolume != newVolume) {
-            audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, newVolume, 0)
-            musicVolumeTextView.text = String.format("현재 볼륨 : %d", newVolume)
+
+            val volumeDiffer = newVolume - currentVolume
+            val step = if(volumeDiffer > 0) 1 else -1
+
+            val handler = Handler(Looper.getMainLooper())
+            val runnable = object : Runnable{
+                override fun run() {
+                   if(currentVolume != newVolume){
+                       val targetVolume = (currentVolume + step).coerceIn(0, maxVolume)
+                       audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, targetVolume, 0)
+                       musicVolumeTextView.text = String.format("현재 볼륨 : %d", newVolume)
+
+                       currentVolume = targetVolume
+                       handler.postDelayed(this, 100)
+                   }
+                }
+            }
+
+            handler.post(runnable)
+
         }
     }
 

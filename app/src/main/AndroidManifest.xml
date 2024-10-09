@@ -27,6 +27,7 @@
         </activity>
         <activity android:name=".RunningStartActivity" />
         <activity android:name=".RunningSelectActivity" />
+        <activity android:name=".VolumeSelectActivity" />
     </application>
 
 </manifest>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <SeekBar
+        android:id="@+id/volumeSelectBar"
+        android:layout_width="304dp"
+        android:layout_height="21dp"
+        tools:layout_editor_absoluteX="59dp"
+        tools:layout_editor_absoluteY="309dp" />
+
+    <TextView
+        android:id="@+id/volumeGuideText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="속도 목표에 도달했을 때의 재생 볼륨을 설정해주세요."
+        tools:layout_editor_absoluteX="51dp"
+        tools:layout_editor_absoluteY="242dp" />
+
+    <Button
+        android:id="@+id/volumeSetupBtn"
+        android:layout_width="182dp"
+        android:layout_height="46dp"
+        android:text="볼륨 설정 완료"
+        tools:layout_editor_absoluteX="114dp"
+        tools:layout_editor_absoluteY="411dp" />
+</androidx.constraintlayout.widget.ConstraintLayout>
