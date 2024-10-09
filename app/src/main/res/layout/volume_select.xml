@@ -9,24 +9,51 @@
 
     <SeekBar
         android:id="@+id/volumeSelectBar"
-        android:layout_width="304dp"
-        android:layout_height="21dp"
-        tools:layout_editor_absoluteX="59dp"
-        tools:layout_editor_absoluteY="309dp" />
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="309dp"
+        android:layout_marginEnd="48dp"
+        android:layout_marginBottom="24dp"
+        android:max="100"
+        app:layout_constraintBottom_toTopOf="@+id/volumeValueText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/volumeGuideText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="242dp"
+        android:layout_marginBottom="46dp"
         android:text="속도 목표에 도달했을 때의 재생 볼륨을 설정해주세요."
-        tools:layout_editor_absoluteX="51dp"
-        tools:layout_editor_absoluteY="242dp" />
+        app:layout_constraintBottom_toTopOf="@+id/volumeSelectBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/volumeSetupBtn"
-        android:layout_width="182dp"
+        android:layout_width="178dp"
         android:layout_height="46dp"
+        android:layout_marginBottom="274dp"
         android:text="볼륨 설정 완료"
-        tools:layout_editor_absoluteX="114dp"
-        tools:layout_editor_absoluteY="411dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/volumeSelectBar"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/volumeValueText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginBottom="355dp"
+        android:text="설정한 볼륨이 표시됩니다."
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/volumeSetupBtn"
+        app:layout_constraintTop_toBottomOf="@+id/volumeSelectBar" />
 </androidx.constraintlayout.widget.ConstraintLayout>
