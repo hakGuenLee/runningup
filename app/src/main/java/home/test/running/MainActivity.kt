@@ -9,6 +9,7 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
+import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -30,11 +31,11 @@ class MainActivity : AppCompatActivity() {
         //권한 요청 호출
        permissionRequestChecker()
 
-        //첫 화면 가운데 텍스트 얻어오기
-        val mainText = findViewById<TextView>(R.id.main_text)
+        //첫 화면 가운데 버튼 얻어오기
+        val appStarter = findViewById<Button>(R.id.main_button)
 
-        //첫 화면 텍스트 클릭 시 다음 화면 전환
-        mainText.setOnClickListener{
+        //첫 화면 버튼 클릭 시 다음 화면 전환
+        appStarter.setOnClickListener{
             val intent = Intent(this, RunningSelectActivity::class.java)
             startActivity(intent)
         }
