@@ -26,6 +26,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".RunningStartActivity" />
+        <activity android:name=".RunningSelectActivity" />
     </application>
 
 </manifest>

@@ -12,6 +12,8 @@ import androidx.core.app.ActivityCompat
 import android.Manifest
 import android.media.AudioManager
 
+
+//속도 측정과 미디어 볼륨 조절하는 공통 화면&컴포넌트
 class RunningStartActivity : AppCompatActivity(), LocationListener {
 
     private lateinit var locationManager: LocationManager
@@ -55,7 +57,7 @@ class RunningStartActivity : AppCompatActivity(), LocationListener {
 
         // 속도가 0에 가까울수록 볼륨을 줄이고, 임계값 이상일 경우 볼륨을 높임
         val newVolume: Int = when {
-            speed < speedThreshold -> 0 // 속도가 임계값 이하일 때 볼륨을 0으로
+            speed < speedThreshold -> 1 // 속도가 임계값 이하일 때 볼륨을 0으로
             speed < 5 -> maxVolume / 4 // 속도가 5km/h 미만일 때 볼륨을 최대 볼륨의 1/4로 설정.
             speed < 7 -> maxVolume / 2 // 속도가 7km/h 미만일 때, 최대 볼륨의 1/2로 설정.
             else -> maxVolume // 속도가 7km/h 이상일 때 최대 볼륨

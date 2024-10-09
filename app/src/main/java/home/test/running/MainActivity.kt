@@ -14,6 +14,8 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 
+
+//앱 실행 첫 화면
 class MainActivity : AppCompatActivity() {
 
     private val REQUEST_PERMISSIONS = 1
@@ -33,7 +35,7 @@ class MainActivity : AppCompatActivity() {
 
         //첫 화면 텍스트 클릭 시 다음 화면 전환
         mainText.setOnClickListener{
-            val intent = Intent(this, RunningStartActivity::class.java)
+            val intent = Intent(this, RunningSelectActivity::class.java)
             startActivity(intent)
         }
     }
