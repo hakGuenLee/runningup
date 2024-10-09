@@ -20,7 +20,7 @@ class RunningStartActivity : AppCompatActivity(), LocationListener {
     private lateinit var speedTextView: TextView
     private lateinit var musicVolumeTextView: TextView
     private var lastLocation: Location? = null
-    private val speedThreshold = 1.944f // 속도 임계값 (3.6을 곱했을 때 7km/h)
+    private var speedThreshold = 0.0f
     private lateinit var audioManager: AudioManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,12 +55,21 @@ class RunningStartActivity : AppCompatActivity(), LocationListener {
         val currentVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC)
         val maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
 
+        //RunningSelectActivity에서 넘어오는 속도 기준값 받기
+        speedThreshold = intent.getFloatExtra("speedValue",0.0f)
+        println(speedThreshold)
         // 속도가 0에 가까울수록 볼륨을 줄이고, 임계값 이상일 경우 볼륨을 높임
         val newVolume: Int = when {
-            speed < speedThreshold -> 1 // 속도가 임계값 이하일 때 볼륨을 0으로
-            speed < 5 -> maxVolume / 4 // 속도가 5km/h 미만일 때 볼륨을 최대 볼륨의 1/4로 설정.
-            speed < 7 -> maxVolume / 2 // 속도가 7km/h 미만일 때, 최대 볼륨의 1/2로 설정.
-            else -> maxVolume // 속도가 7km/h 이상일 때 최대 볼륨
+            speed < speedThreshold * 0.3 -> 1  //속도 기준값의 30%미만 속도일 때 볼륨 1
+            speed < speedThreshold * 0.5 -> maxVolume / 4 // 속도 기준값의 50% 속도일때 볼륨읠 1/4로 설정
+            speed < speedThreshold * 0.8 -> maxVolume / 2 // 속도 기준값의 80% 속도일때 볼륨을 1/2로 설정
+
+            else -> maxVolume //그 외 속도 기준값과 일치하거나 그 이상이면 최대 볼륨
+
+            //**변경 전 볼륨 제어 코드
+            //speed < 5 -> maxVolume / 4 // 속도가 5km/h 미만일 때 볼륨을 최대 볼륨의 1/4로 설정.
+            //speed < 7 -> maxVolume / 2 // 속도가 7km/h 미만일 때, 최대 볼륨의 1/2로 설정.
+
         }
 
         // 볼륨 설정
