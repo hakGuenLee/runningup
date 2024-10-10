@@ -27,7 +27,9 @@ class RunningSelectActivity : AppCompatActivity() {
 
         //사용자가 전 화면에서 선택한 최대볼륨
         val userSelectVolume = intent.getIntExtra("volumeValue",0)
+        val userSelectLowVolume = intent.getIntExtra("lowVolumeValue",0)
         println(userSelectVolume)
+        println(userSelectLowVolume)
 
         //각 버튼 얻어오기
         val slowRunner = findViewById<Button>(R.id.slow_runner)
@@ -50,18 +52,21 @@ class RunningSelectActivity : AppCompatActivity() {
         slowRunner.setOnClickListener{
             intent.putExtra("speedValue",slowSpeed)
             intent.putExtra("userSelectVolume",userSelectVolume)
+            intent.putExtra("userSelectLowVolume",userSelectLowVolume)
             startActivity(intent)
         }
 
         reqularRunner.setOnClickListener {
             intent.putExtra("speedValue",regularSpeed)
             intent.putExtra("userSelectVolume",userSelectVolume)
+            intent.putExtra("userSelectLowVolume",userSelectLowVolume)
             startActivity(intent)
         }
 
         fastRunner.setOnClickListener {
             intent.putExtra("speedValue",fastSpeed)
             intent.putExtra("userSelectVolume",userSelectVolume)
+            intent.putExtra("userSelectLowVolume",userSelectLowVolume)
             startActivity(intent)
         }
 

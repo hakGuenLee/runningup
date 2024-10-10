@@ -26,6 +26,7 @@ class RunningStartActivity : AppCompatActivity(), LocationListener {
     private var lastLocation: Location? = null
     private var speedThreshold = 0.0f
     private var userSelectVolumeValue = 0
+    private var userSelectLowVolumeValue = 0
     private lateinit var audioManager: AudioManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,16 +67,19 @@ class RunningStartActivity : AppCompatActivity(), LocationListener {
 
         //RunningSelectActivity에서 넘어오는 최대 볼륨값 받기
         userSelectVolumeValue = intent.getIntExtra("userSelectVolume",0)
+        userSelectLowVolumeValue = intent.getIntExtra("userSelectLowVolume",0)
 
         //RunningSelectActivity에서 넘어오는 속도 기준값 받기
         speedThreshold = intent.getFloatExtra("speedValue",0.0f)
 
         println(userSelectVolumeValue)
+        println(userSelectLowVolumeValue)
         println(speedThreshold)
+
 
         // 속도가 0에 가까울수록 볼륨을 줄이고, 임계값 이상일 경우 볼륨을 높임
         val newVolume: Int = when {
-            speed < speedThreshold * 0.3 -> 1  //속도 기준값의 30%미만 속도일 때 볼륨 1
+            speed < speedThreshold * 0.3 -> userSelectLowVolumeValue  //속도 기준값의 30%미만 속도일 때 볼륨 1
             speed < speedThreshold * 0.5 -> userSelectVolumeValue / 4 // 속도 기준값의 50% 속도일때 볼륨읠 1/4로 설정
             speed < speedThreshold * 0.8 -> userSelectVolumeValue / 2 // 속도 기준값의 80% 속도일때 볼륨을 1/2로 설정
 
