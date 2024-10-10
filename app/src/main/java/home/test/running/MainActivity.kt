@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
 
         //첫 화면 버튼 클릭 시 다음 화면 전환
         appStarter.setOnClickListener{
-            val intent = Intent(this, RunningSelectActivity::class.java)
+            val intent = Intent(this, VolumeSelectActivity::class.java)
             startActivity(intent)
         }
     }

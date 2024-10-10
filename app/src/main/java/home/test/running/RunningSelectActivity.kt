@@ -25,6 +25,10 @@ class RunningSelectActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.running_select)
 
+        //사용자가 전 화면에서 선택한 최대볼륨
+        val userSelectVolume = intent.getIntExtra("volumeValue",0)
+        println(userSelectVolume)
+
         //각 버튼 얻어오기
         val slowRunner = findViewById<Button>(R.id.slow_runner)
         val reqularRunner = findViewById<Button>(R.id.running_selector)
@@ -40,19 +44,24 @@ class RunningSelectActivity : AppCompatActivity() {
         //속도측정 엑티비티로 넘어가주는 인텐트 생성
         val intent = Intent(this, RunningStartActivity::class.java)
 
+
+
         //각 버튼 클릭마다 속도 기준값 담아서 보내기
         slowRunner.setOnClickListener{
             intent.putExtra("speedValue",slowSpeed)
+            intent.putExtra("userSelectVolume",userSelectVolume)
             startActivity(intent)
         }
 
         reqularRunner.setOnClickListener {
             intent.putExtra("speedValue",regularSpeed)
+            intent.putExtra("userSelectVolume",userSelectVolume)
             startActivity(intent)
         }
 
         fastRunner.setOnClickListener {
             intent.putExtra("speedValue",fastSpeed)
+            intent.putExtra("userSelectVolume",userSelectVolume)
             startActivity(intent)
         }
 
