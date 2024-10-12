@@ -6,6 +6,8 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -16,6 +18,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Running"
+        android:foregroundServiceType="location"
         tools:targetApi="31">
         <activity
             android:name=".MainActivity"
@@ -29,6 +32,12 @@
         <activity android:name=".RunningStartActivity" />
         <activity android:name=".RunningSelectActivity" />
         <activity android:name=".VolumeSelectActivity" />
+        <service
+            android:name=".RunningService"
+            android:foregroundServiceType="location"
+            android:exported="false" />
+
     </application>
+
 
 </manifest>
