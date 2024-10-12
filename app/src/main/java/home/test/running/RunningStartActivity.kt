@@ -88,6 +88,8 @@ class RunningStartActivity : AppCompatActivity(), LocationListener {
     override fun onDestroy() {
         super.onDestroy()
         locationManager.removeUpdates(this)
+        val serviceIntent = Intent(this, RunningService::class.java)
+        stopService(serviceIntent)
     }
 
     // LocationListener 메서드 구현

@@ -114,6 +114,12 @@ class RunningService : Service(), LocationListener {
         locationManager.removeUpdates(this)
     }
 
+    override fun onTaskRemoved(rootIntent: Intent?) {
+        super.onTaskRemoved(rootIntent)
+
+        stopSelf()
+    }
+
     override fun onBind(intent: Intent?): IBinder? {
         return null
     }
