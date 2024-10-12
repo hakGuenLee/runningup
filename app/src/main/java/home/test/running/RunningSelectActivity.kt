@@ -32,16 +32,16 @@ class RunningSelectActivity : AppCompatActivity() {
         println(userSelectLowVolume)
 
         //각 버튼 얻어오기
-        val slowRunner = findViewById<Button>(R.id.slow_runner)
-        val reqularRunner = findViewById<Button>(R.id.running_selector)
-        val fastRunner = findViewById<Button>(R.id.fastest_runner)
+        val slowRunner = findViewById<Button>(R.id.slow_runner) //조금느리게뛰기
+        val reqularRunner = findViewById<Button>(R.id.running_selector) //평균속도
+        val fastRunner = findViewById<Button>(R.id.fastest_runner) //전력질주
 
-        //느리게 뛰기 속도 기준값 :
-        val slowSpeed = 0.833f * 3.6f
-        //평균 속도 기준값 : 7km/h
-        val regularSpeed = 7.0f
-        //전력질주 속도 기준값 : 10km/h
-        val fastSpeed = 10.0f
+        //느리게 뛰기 속도 기준값 : 6km/h
+        val slowSpeed = 6.0f
+        //평균 속도 기준값 : 9km/h
+        val regularSpeed = 9.0f
+        //전력질주 속도 기준값 : 12km/h
+        val fastSpeed = 12.0f
 
         //속도측정 엑티비티로 넘어가주는 인텐트 생성
         val intent = Intent(this, RunningStartActivity::class.java)
