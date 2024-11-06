@@ -26,6 +26,9 @@ class RunningService : Service(), LocationListener {
     private var speedThreshold = 0.0f
     private var userSelectVolumeValue = 0
     private var userSelectLowVolumeValue = 0
+    
+    //달려온 거리 값을 담을 변수
+    private var totalDistance = 0.0 // km단위
 
     override fun onCreate() {
         super.onCreate()
@@ -51,9 +54,9 @@ class RunningService : Service(), LocationListener {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         intent?.let {
-            userSelectVolumeValue = it.getIntExtra("userSelectVolume", 0)
-            userSelectLowVolumeValue = it.getIntExtra("userSelectLowVolume", 0)
-            speedThreshold = it.getFloatExtra("speedThreshold", 0.0f)
+//            userSelectVolumeValue = it.getIntExtra("userSelectVolume", 0)
+//            userSelectLowVolumeValue = it.getIntExtra("userSelectLowVolume", 0)
+//            speedThreshold = it.getFloatExtra("speedThreshold", 0.0f)
             startLocationUpdates()
         }
 
@@ -63,7 +66,7 @@ class RunningService : Service(), LocationListener {
     private fun startLocationUpdates() {
         if (checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
             checkSelfPermission(android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 5f, this)
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 1f, this)
             //달리기에 적합하도록 위치업데이트를 2초에 한번씩 수행하도록 늘려봄. 
             //단, 위치 측정을 위한 최소 이동 거리가 5m이기 때문에, 5m 이상 이동하지 않으면 수행되지 않음
         }
@@ -71,43 +74,60 @@ class RunningService : Service(), LocationListener {
 
     override fun onLocationChanged(location: Location) {
         val speed = location.speed * 3.6f // m/s를 km/h로 변환
-        val adjustedVolume = volumeChanger(speed)
+        val pace = calculatePace(speed)
+        totalDistance += location.distanceTo(location) / 1000 //km로 변환
+//        val adjustedVolume = volumeChanger(speed)
 
         // 속도와 볼륨을 Activity로 LocalBroadcast
         val intent = Intent("SPEED_UPDATE")
-        intent.putExtra("speed", speed)
-        intent.putExtra("adjustedVolume", adjustedVolume)
+//        intent.putExtra("speed", speed)
+//        intent.putExtra("adjustedVolume", adjustedVolume)
+        intent.putExtra("totalDistance",totalDistance) //달려온 거리를 넘겨줌
+        intent.putExtra("pace", pace) //측정되는 페이스를 넘김
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
     }
 
-    private fun volumeChanger(speed: Float): Int {
-        var currentVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC)
 
-        val newVolume: Int = when {
-            speed < speedThreshold * 0.2 -> userSelectLowVolumeValue
-            speed < speedThreshold * 0.4 -> userSelectLowVolumeValue / 6
-            speed < speedThreshold * 0.6 -> userSelectVolumeValue / 4
-            speed < speedThreshold * 0.8 -> userSelectVolumeValue / 2
-            else -> userSelectVolumeValue
+    private fun calculatePace(speed: Float): String {
+        return if (speed > 0) {
+            // km/h를 min/km로 변환
+            val paceInMinutes = 60 / speed // 시간당 거리에서 페이스를 계산
+            val minutes = paceInMinutes.toInt()
+            val seconds = ((paceInMinutes - minutes) * 60).toInt()
+            String.format("%02d:%02d", minutes, seconds)
+        } else {
+            "N/A" // 정지 상태
         }
-
-        if (currentVolume != newVolume) {
-            val handler = Handler(mainLooper)
-            val runnable = object : Runnable {
-                override fun run() {
-                    if (currentVolume != newVolume) {
-                        val targetVolume = (currentVolume + if (newVolume > currentVolume) 1 else -1).coerceIn(0, userSelectVolumeValue)
-                        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, targetVolume, 0)
-                        currentVolume = targetVolume
-                        handler.postDelayed(this, 100)
-                    }
-                }
-            }
-            handler.post(runnable)
-        }
-
-        return newVolume // 반환된 값을 Activity로 전달
     }
+
+//    private fun volumeChanger(speed: Float): Int {
+//        var currentVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC)
+//
+//        val newVolume: Int = when {
+//            speed < speedThreshold * 0.2 -> userSelectLowVolumeValue
+//            speed < speedThreshold * 0.4 -> userSelectLowVolumeValue / 6
+//            speed < speedThreshold * 0.6 -> userSelectVolumeValue / 4
+//            speed < speedThreshold * 0.8 -> userSelectVolumeValue / 2
+//            else -> userSelectVolumeValue
+//        }
+//
+//        if (currentVolume != newVolume) {
+//            val handler = Handler(mainLooper)
+//            val runnable = object : Runnable {
+//                override fun run() {
+//                    if (currentVolume != newVolume) {
+//                        val targetVolume = (currentVolume + if (newVolume > currentVolume) 1 else -1).coerceIn(0, userSelectVolumeValue)
+//                        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, targetVolume, 0)
+//                        currentVolume = targetVolume
+//                        handler.postDelayed(this, 100)
+//                    }
+//                }
+//            }
+//            handler.post(runnable)
+//        }
+//
+//        return newVolume // 반환된 값을 Activity로 전달
+//    }
 
     override fun onDestroy() {
         super.onDestroy()

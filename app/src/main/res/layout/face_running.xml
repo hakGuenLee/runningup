@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/face_running"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#212121"
+    tools:context=".FaceRunningActivity">
+
+    <ViewFlipper
+        android:id="@+id/viewFlipper"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- 기본 화면 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/timer"
+                android:layout_width="wrap_content"
+                android:layout_height="92dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginLeft="43dp"
+                android:gravity="center"
+                android:text="00:00:00"
+                android:textColor="#ffFAFAFA"
+                android:textSize="76sp" />
+
+            <LinearLayout
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginTop="150dp"
+                android:layout_marginLeft="120dp">
+
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="41dp"
+                    android:layout_height="31dp"
+                    android:layout_marginEnd="8dp"
+                    app:srcCompat="@drawable/target" />
+
+                <TextView
+                    android:id="@+id/targetText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0'0/km"
+                    android:textColor="#ffFAFAFA"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginTop="16dp"
+                android:layout_marginLeft="120dp">
+
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="38dp"
+                    android:layout_height="35dp"
+                    android:layout_marginEnd="8dp"
+                    app:srcCompat="@drawable/runner" />
+
+                <TextView
+                    android:id="@+id/runningFaceText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0'0/km"
+                    android:textColor="#ffFAFAFA"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/distance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="110dp"
+                android:layout_marginLeft="90dp"
+                android:text="0.0Km"
+                android:textColor="#ffFAFAFA"
+                android:textSize="64sp" />
+
+            <Button
+                android:id="@+id/faceRunningController"
+                android:layout_width="190dp"
+                android:layout_height="54dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="90dp"
+                android:text="START" />
+
+            <Button
+                android:id="@+id/faceRunningStopper"
+                android:layout_width="190dp"
+                android:layout_height="57dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginLeft="90dp"
+                android:text="FINISH" />
+        </LinearLayout>
+
+        <!-- face_counter.xml 레이아웃 -->
+        <include layout="@layout/face_counter"/>
+
+        <!-- face_map.xml 레이아웃 -->
+        <include layout="@layout/face_map"/>
+    </ViewFlipper>
+</androidx.constraintlayout.widget.ConstraintLayout>
