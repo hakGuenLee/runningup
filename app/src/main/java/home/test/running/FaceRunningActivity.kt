@@ -75,6 +75,9 @@ class FaceRunningActivity : AppCompatActivity(), TimeManager.TimerCallback, Loca
     }
 
 
+
+
+
     //스와이프 처리 메서드
     private fun handleSwipeGesture(e1: MotionEvent, e2: MotionEvent): Boolean {
         val diffX = e2.x - e1.x
@@ -113,6 +116,8 @@ class FaceRunningActivity : AppCompatActivity(), TimeManager.TimerCallback, Loca
         }
         return false
     }
+
+
 
 
     override fun onLocationUpdated(distance: Double, pace: String) {

@@ -24,12 +24,20 @@ class PermissionChecker(private val context: Context) {
             ContextCompat.checkSelfPermission(context, it.value) == PackageManager.PERMISSION_DENIED
         }
 
-        // 결과값이 0보다 크면 deny되어 있는 것. 이때는 권한을 다시 요청
+        // 결과값이 0보다 크면 deny되어 있는 것. 이때는 권한 요청 페이지로 이동
         if (permissionDeny > 0) {
-            (context as? MainActivity)?.requestPermissions(
-                permissionList.values.toTypedArray(),
-                REQUEST_PERMISSIONS
-            )
+            Handler().postDelayed({
+                val permissionIntent = Intent(context, PermissionRequestActivity::class.java)
+                context.startActivity(permissionIntent)
+                if (context is MainActivity) {
+                    context.finish() // 현재 Activity 종료
+                }
+            }, 980)
+
+//            (context as? MainActivity)?.requestPermissions(
+//                permissionList.values.toTypedArray(),
+//                REQUEST_PERMISSIONS
+//            )
         } else {
             // 권한이 모두 허용되어 있으면 0.97초 후에 자동으로 화면 전환
             navigateToFaceSelectActivity()

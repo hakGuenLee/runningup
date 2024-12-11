@@ -4,19 +4,20 @@ import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import home.test.running.databinding.ActivityMainBinding
+import home.test.running.databinding.SplashIntroBinding
 
 
 //앱 실행 첫 화면
 class MainActivity : AppCompatActivity() {
 
     private val REQUEST_PERMISSIONS = 1
-    private lateinit var binding: ActivityMainBinding
+    private lateinit var binding: SplashIntroBinding
     private lateinit var permissionChecker: PermissionChecker
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        enableEdgeToEdge() //전체화면 설정
+        binding = SplashIntroBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         //권한 요청 호출 : 사용자가 권한을 변경할 수도 있기 때문에 앱 실행할 때마다 항상 체크
